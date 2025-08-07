@@ -7,7 +7,9 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 //middleware
+// Allow connection between bakcend and frontend
 app.use(cors());
+// convert JSON to objects that i can use
 app.use(express.json());
 
 // Connect to databse
