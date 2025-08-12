@@ -3,8 +3,8 @@ import {
   getReservations,
   deleteReservation,
   createReservation,
-} from "../controllers/reservationController";
-import authenticateToken from "../middlewares/authMiddleware";
+} from "../controllers/reservationController.js";
+import authenticateToken from "../middlewares/authMiddleware.js";
 
 const router = express.Router();
 
@@ -12,3 +12,5 @@ const router = express.Router();
 router.get("/", authenticateToken, getReservations);
 router.delete("/:id", authenticateToken, deleteReservation);
 router.post("/", authenticateToken, createReservation);
+
+export default router;

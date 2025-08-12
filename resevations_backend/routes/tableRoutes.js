@@ -3,12 +3,14 @@ import {
   createTable,
   getAllTables,
   getAvailableTables,
-} from "../controllers/tableController";
-import { authorizeRoles } from "../middlewares/roleMiddleware";
-import authenticateToken from "../middlewares/authMiddleware";
+} from "../controllers/tableController.js";
+import { authorizeRoles } from "../middlewares/roleMiddleware.js";
+import authenticateToken from "../middlewares/authMiddleware.js";
 
 const router = express.Router();
 
 router.get("/all",authenticateToken, authorizeRoles(["admin"]), getAllTables);
 router.post("/", authenticateToken, authorizeRoles(["admin"]), createTable);
 router.get("/available", getAvailableTables);
+
+export default router;

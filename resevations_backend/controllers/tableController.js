@@ -1,5 +1,5 @@
-import { table } from "../models/Table";
-import { reservation } from "../models/Reservation";
+import { table } from "../models/Table.js";
+import { reservation } from "../models/Reservation.js";
 
 const getAllTables = async (req, res) => {
   try {
