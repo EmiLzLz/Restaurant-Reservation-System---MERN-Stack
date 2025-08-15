@@ -14,9 +14,6 @@ const About = () => {
 
       {/* Content Section */}
       <div className="bg-[#F5EDE2] py-20 px-6 relative">
-        {/* Decorative elements */}
-        <div className="absolute top-0 left-1/4 w-32 h-32 bg-[#D9886A]/5 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-20 right-1/4 w-40 h-40 bg-[#81A68D]/5 rounded-full blur-3xl"></div>
 
         <div className="relative z-10 max-w-7xl mx-auto">
           {/* Header */}
@@ -36,8 +33,6 @@ const About = () => {
           {/* Quote Section */}
           <div className="max-w-4xl mx-auto text-center mb-20">
             <div className="bg-white/60 p-8 rounded-2xl backdrop-blur-sm border border-[#D9886A]/20 shadow-lg max-w-3xl mx-auto relative">
-              <div className="absolute -top-2 -left-2 w-4 h-4 bg-[#D9886A]/20 rounded-full"></div>
-              <div className="absolute -bottom-2 -right-2 w-6 h-6 bg-[#81A68D]/20 rounded-full"></div>
               <blockquote className="text-[#2C3E36] italic text-xl leading-relaxed">
                 "Aquí, cada mesa cuenta una historia diferente, pero todas
                 comparten la misma esencia: la celebración de estar
