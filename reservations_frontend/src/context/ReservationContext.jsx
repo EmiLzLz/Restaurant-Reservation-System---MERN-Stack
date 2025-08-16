@@ -1,4 +1,10 @@
-import { createContext, useEffect, useState } from "react";
+import {
+  createContext,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import {
   getReservations,
   createReservation,
@@ -14,13 +20,8 @@ export const ReservationProvider = ({ children }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  // fetch reservations when component mounts
-  useEffect(() => {
-    fetchUserReservations();
-  }, []);
-
   // Get reservations from current user
-  const fetchUserReservations = async () => {
+  const fetchUserReservations = useCallback(async () => {
     try {
       setLoading(true);
       setError(null);
@@ -32,10 +33,15 @@ export const ReservationProvider = ({ children }) => {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
+
+  // fetch reservations when component mounts
+  useEffect(() => {
+    fetchUserReservations();
+  }, [fetchUserReservations]);
 
   //Create a new reservation
-  const addReservation = async (reservationData) => {
+  const addReservation = useCallback(async (reservationData) => {
     try {
       setLoading(true);
       setError(null);
@@ -52,10 +58,10 @@ export const ReservationProvider = ({ children }) => {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
   // Cancel reservation
-  const removeReservation = async (reservationId) => {
+  const removeReservation = useCallback(async (reservationId) => {
     try {
       setLoading(true);
       setError(null);
@@ -74,25 +80,36 @@ export const ReservationProvider = ({ children }) => {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
   // clean errors
-  const clearError = () => {
+  const clearError = useCallback(() => {
     setError(null);
-  };
+  }, []);
+
+  const value = useMemo(
+    () => ({
+      reservations,
+      loading,
+      error,
+      fetchUserReservations,
+      addReservation,
+      removeReservation,
+      clearError,
+    }),
+    [
+      reservations,
+      loading,
+      error,
+      fetchUserReservations,
+      addReservation,
+      removeReservation,
+      clearError,
+    ]
+  );
 
   return (
-    <ReservationContext.Provider
-      value={{
-        reservations,
-        loading,
-        error,
-        fetchUserReservations,
-        addReservation,
-        removeReservation,
-        clearError,
-      }}
-    >
+    <ReservationContext.Provider value={value}>
       {children}
     </ReservationContext.Provider>
   );

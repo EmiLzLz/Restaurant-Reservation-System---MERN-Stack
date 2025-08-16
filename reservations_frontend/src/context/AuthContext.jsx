@@ -1,4 +1,10 @@
-import { createContext, useEffect, useState } from "react";
+import {
+  createContext,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import { loginUser, signupUser, getCurrentUser } from "../api/auth";
 
 //Create the context with a default value (e.g., null for no authenticated user)
@@ -32,7 +38,8 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   //function to handle user login
-  const login = async (username, password) => {
+  // useCallback avoid the creation of new functions in each render
+  const login = useCallback(async (username, password) => {
     try {
       setError(null);
       setLoading(true);
@@ -53,10 +60,10 @@ export const AuthProvider = ({ children }) => {
       setError(error.message || "Login failed");
       return { success: false, error: error.message };
     }
-  };
+  }, []);
 
   // function to handle user signup
-  const signup = async (userData) => {
+  const signup = useCallback(async (userData) => {
     try {
       setError(null);
       setLoading(true);
@@ -69,22 +76,22 @@ export const AuthProvider = ({ children }) => {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
   //function to handle the user logout
-  const logout = () => {
+  const logout = useCallback(() => {
     setUser(null);
     setError(null);
     localStorage.removeItem("token");
     localStorage.removeItem("user");
-  };
+  }, []);
+
+  // usememo avoiud recreate the "value" object
+  const value = useMemo(
+    () => ({ user, loading, error, login, signup, logout }),
+    [user, loading, error, login, signup, logout]
+  );
 
   //provide the authentication state and functions to child component
-  return (
-    <AuthContext.Provider
-      value={{ user, loading, error, login, signup, logout }}
-    >
-      {children}
-    </AuthContext.Provider>
-  );
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
