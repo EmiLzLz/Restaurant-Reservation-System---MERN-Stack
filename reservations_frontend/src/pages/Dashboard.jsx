@@ -11,6 +11,13 @@ const DashboardHome = () => {
   const { reservations, loading, error } = useReservation();
 
   // Helper functions (keeping them here for now)
+  /**
+   * The `formatDate` function takes a date string as input and returns a formatted date in the "month
+   * day, year" format.
+   * @returns The `formatDate` function takes a `dateString` as input, converts it to a `Date` object,
+   * and then returns the formatted date in the format "Month Day, Year" (e.g., "January 1, 2022") in
+   * US English locale.
+   */
   const formatDate = (dateString) => {
     const date = new Date(dateString);
     return date.toLocaleDateString("en-US", {
@@ -20,6 +27,12 @@ const DashboardHome = () => {
     });
   };
 
+  /**
+   * The `formatTime` function takes a date string as input and returns the time in 24-hour format.
+   * @returns The `formatTime` function takes a `dateString` as input, converts it to a `Date` object,
+   * and then returns the time portion of the date in 24-hour format (HH:mm) using the
+   * `toLocaleDateString` method with the specified options.
+   */
   const formatTime = (dateString) => {
     const date = new Date(dateString);
     return date.toLocaleDateString("en-US", {
@@ -29,6 +42,13 @@ const DashboardHome = () => {
     });
   };
 
+  /**
+   * The function `getReservationStatus` determines if a reservation is confirmed or completed based on
+   * the reservation date compared to the current date.
+   * @returns The function `getReservationStatus` returns either "confirmed" if the reservation date is
+   * in the future compared to the current date, or "completed" if the reservation date is in the past
+   * or the same as the current date.
+   */
   const getReservationStatus = (reservationDate) => {
     const now = new Date();
     const resDate = new Date(reservationDate);
@@ -58,11 +78,15 @@ const DashboardHome = () => {
   };
 
   // Get upcoming reservation
+  /* This line of code is filtering the `reservations` array to get the upcoming reservation. Here's a
+  breakdown of what each part of the code is doing: */
   const upcomingReservation = reservations
     ?.filter((res) => new Date(res.date) > new Date())
     ?.sort((a, b) => new Date(a.date) - new Date(b.date))[0];
 
   // Get reservation history
+  /* This line of code is creating a new array `reservationHistory` by performing the following
+  operations: */
   const reservationHistory = reservations
     ?.slice()
     ?.sort((a, b) => new Date(b.date) - new Date(a.date))

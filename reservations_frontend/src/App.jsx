@@ -6,6 +6,7 @@ import Landing from "./pages/Landing";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import DashboardHome from "./pages/Dashboard";
+import NewReservation from "./pages/NewReservation";
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
       <Route path="/dashboard" element={<DashboardHome />} />
+      <Route path="/dashboard/new-reservation" element={<NewReservation />} />
     </Routes>
   );
 }
