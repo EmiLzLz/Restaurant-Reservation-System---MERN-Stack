@@ -7,6 +7,8 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import DashboardHome from "./pages/Dashboard";
 import NewReservation from "./pages/NewReservation";
+import ProtectedRoutes from "./components/ProtectedRoutes";
+import ReservationsList from "./pages/ReservationsList";
 
 function App() {
   return (
@@ -14,8 +16,12 @@ function App() {
       <Route path="/" element={<Landing />} />
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
-      <Route path="/dashboard" element={<DashboardHome />} />
-      <Route path="/dashboard/new-reservation" element={<NewReservation />} />
+      {/* Protected Routes */}
+      <Route element={<ProtectedRoutes />}>
+        <Route path="/dashboard" element={<DashboardHome />} />
+        <Route path="/dashboard/new-reservation" element={<NewReservation />} />
+        <Route path="/dashboard/reservations-list" element={<ReservationsList />} />
+      </Route>
     </Routes>
   );
 }
