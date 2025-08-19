@@ -7,6 +7,7 @@ import {
   Clock,
   Diamond,
 } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const Services = () => {
   return (
@@ -125,9 +126,11 @@ const Services = () => {
                   Your table awaits. Access your personalized dashboard and
                   secure your next unforgettable evening.
                 </p>
-                <button className="w-full bg-gradient-to-r from-[#2C3E36] to-[#1a241f] text-[#F5EDE2] py-4 px-6 rounded-xl font-medium text-lg hover:from-[#1a241f] hover:to-[#2C3E36] transition-all duration-300 transform hover:scale-[1.02] shadow-lg">
-                  Continue to Dashboard
-                </button>
+                <Link to="/dashboard">
+                  <button className="w-full bg-gradient-to-r from-[#2C3E36] to-[#1a241f] text-[#F5EDE2] py-4 px-6 rounded-xl font-medium text-lg hover:from-[#1a241f] hover:to-[#2C3E36] transition-all duration-300 transform hover:scale-[1.02] shadow-lg cursor-pointer">
+                    Continue to Dashboard
+                  </button>
+                </Link>
               </div>
 
               {/* Divider */}
@@ -174,9 +177,11 @@ const Services = () => {
                   </div>
                 </div>
 
-                <button className="w-full bg-gradient-to-r from-[#D9886A] to-[#C67B5C] text-[#F5EDE2] py-4 px-6 rounded-xl font-medium text-lg hover:from-[#C67B5C] hover:to-[#D9886A] transition-all duration-300 transform hover:scale-[1.02] shadow-lg">
-                  Create Your Account
-                </button>
+                <Link to="/register">
+                  <button className="w-full bg-gradient-to-r from-[#D9886A] to-[#C67B5C] text-[#F5EDE2] py-4 px-6 rounded-xl font-medium text-lg hover:from-[#C67B5C] hover:to-[#D9886A] transition-all duration-300 transform hover:scale-[1.02] shadow-lg cursor-pointer">
+                    Create Your Account
+                  </button>
+                </Link>
 
                 <p className="text-xs text-[#2C3E36] opacity-60 text-center mt-4">
                   Registration takes less than 60 seconds. Instant access

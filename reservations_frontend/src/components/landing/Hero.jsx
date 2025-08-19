@@ -18,12 +18,13 @@ const Hero = () => {
           </h1>
 
           <p className="text-lg md:text-xl text-[#D9D4C8] mb-8 font-light leading-relaxed">
-            A sanctuary for life's meaningful connections, where exceptional views meet exceptional moments in perfect harmony
+            A sanctuary for life's meaningful connections, where exceptional
+            views meet exceptional moments in perfect harmony
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4">
             <a
-              href="/reservations"
+              href="/login"
               className="bg-[#D9886A] hover:bg-[#c77a5a] hover:scale-105 hover:shadow-lg text-[#F5EDE2] px-8 py-4 text-sm uppercase tracking-wider transition-all duration-300 font-medium text-center transform"
             >
               Reserve a Table
@@ -47,9 +48,6 @@ const Hero = () => {
           alt="Restaurant Interior"
           className="w-full h-full object-cover"
         />
-
-        {/* Overlay elements */}
-        
       </div>
 
       {/* Mobile background image overlay */}
