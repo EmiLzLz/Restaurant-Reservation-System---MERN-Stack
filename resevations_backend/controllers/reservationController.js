@@ -48,88 +48,39 @@ const deleteReservation = async (req, res) => {
 
 const createReservation = async (req, res) => {
   try {
-    const { tableId, date, people, duration } = req.body;
-
-    // Basic validations
-    if (!tableId || !date || !people || !duration) {
+    const { date, time, partySize } = req.body;
+    
+    // Validaciones básicas
+    if (!date || !time || !partySize) {
       return res.status(400).json({ message: "All fields required" });
     }
-
-    //Validate that is a future date
-    const reservationDate = new Date(date);
-    if (reservationDate <= new Date()) {
-      return res
-        .status(400)
-        .json({ message: "Reservation must be in the future" });
-    }
-
-    // Search table and validate capacity
-    const tableToReserve = await table.findById(tableId);
-    if (!tableToReserve) {
-      return res.status(404).json({ message: "Table not found" });
-    }
-
-    if (tableToReserve.capacity < people) {
-      return res.status(400).json({ message: "Table capacity insufficient" });
-    }
-
-    //Check availability
-    const endTime = new Date(reservationDate.getTime() + duration * 60 * 1000);
-
-    const conflictingReservations = await reservation.find({
-      table: tableId,
-      date: {
-        $gte: new Date(reservationDate).setHours(0, 0, 0, 0),
-        $lt: new Date(reservationDate).setHours(23, 59, 59, 999),
-      },
-      $or: [
-        {
-          $and: [
-            { date: { $gte: reservationDate } },
-            { date: { $lt: endTime } },
-          ],
-        },
-        {
-          $expr: {
-            $and: [
-              { $lte: ["$date", reservationDate] },
-              {
-                $gt: [
-                  { $add: ["$date", { $multiply: ["$duration", 60000] }] },
-                  reservationDate,
-                ],
-              },
-            ],
-          },
-        },
-      ],
+    
+    // Combinar fecha y hora
+    const reservationDateTime = new Date(`${date}T${time}`);
+    
+    // Buscar mesa disponible automáticamente
+    const availableTable = await table.findOne({ 
+      capacity: { $gte: partySize } 
     });
-
-    if (conflictingReservations.length > 0) {
-      return res
-        .status(409)
-        .json({ message: "Table not available at this time" });
+    
+    if (!availableTable) {
+      return res.status(400).json({ message: "No tables available for this party size" });
     }
-
-    // Create reservation
+    
+    // Crear reserva
     const newReservation = new reservation({
       user: req.user.id,
-      table: tableId,
-      date: reservationDate,
-      people: people,
-      duration: duration,
+      table: availableTable._id,
+      date: reservationDateTime,
+      people: partySize,
+      duration: 120 // 2 horas por defecto
     });
-
+    
     await newReservation.save();
-
-    // Return complete data with populate
-    const savedReservation = await reservation
-      .findById(newReservation._id)
-      .populate("user", "username email")
-      .populate("table", "capacity");
-
-    res.status(201).json(savedReservation);
+    res.status(201).json(newReservation);
+    
   } catch (error) {
+    console.error("Create reservation error:", error);
     res.status(500).json({ message: error.message });
   }
 };

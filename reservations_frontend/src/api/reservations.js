@@ -25,7 +25,7 @@ export const getReservations = async () => {
   }
 };
 
-export const createReservation = async (tableId, date, people, duration) => {
+export const createReservation = async (reservationData) => {
   try {
     // get token from localstorage
     const token = localStorage.getItem("token");
@@ -36,7 +36,7 @@ export const createReservation = async (tableId, date, people, duration) => {
 
     const response = await api.post(
       "/reservations",
-      { tableId, date, people, duration }, // body data
+      reservationData, // body data
       { headers: { Authorization: `Bearer ${token}` } } // config con headers
     );
 

@@ -9,8 +9,8 @@ export default function Login() {
   const navigate = useNavigate();
   const [formError, setFormError] = useState(null);
 
-  const handleLogin = async ({ username, password }) => {
-    const result = await login(username, password);
+  const handleLogin = async ({ name, password }) => {
+    const result = await login(name, password);
 
     if (result.success) {
       navigate("/dashboard"); // redirige a la vista principal

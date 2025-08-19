@@ -18,8 +18,8 @@ export default function LoginForm({ onSubmit, isLoading }) {
         <User className="absolute left-4 top-1/2 -translate-y-1/2 text-white/60 w-5 h-5" />
         <input
           type="text"
-          placeholder="Username"
-          {...register("username", { required: "Username is required" })}
+          placeholder="name"
+          {...register("name", { required: "Name is required" })}
           className="w-full pl-12 pr-4 py-4 rounded-xl bg-white/10 border border-white/20 text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-[#D9886A]"
         />
         {errors.username && (

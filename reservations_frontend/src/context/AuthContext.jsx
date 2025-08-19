@@ -39,13 +39,13 @@ export const AuthProvider = ({ children }) => {
 
   //function to handle user login
   // useCallback avoid the creation of new functions in each render
-  const login = useCallback(async (username, password) => {
+  const login = useCallback(async (name, password) => {
     try {
       setError(null);
       setLoading(true);
 
       //call to API
-      const data = await loginUser(username, password);
+      const data = await loginUser(name, password);
 
       //save token
       localStorage.setItem("token", data.token);

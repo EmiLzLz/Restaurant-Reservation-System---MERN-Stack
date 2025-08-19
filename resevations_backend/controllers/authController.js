@@ -1,26 +1,43 @@
 import { user } from "../models/User.js";
 import jwt from "jsonwebtoken";
+import bcrypt from "bcryptjs";
 
 const signup = async (req, res) => {
+  console.log("Request body:", req.body);
+
   try {
     const newUser = new user({
-      username: req.body.username,
+      username: req.body.name, // ← Changed from username to name
       email: req.body.email,
       phone: req.body.phone,
       password: req.body.password,
     });
+
     await newUser.save();
-    res.status(201).send("User created successfully");
+    res
+      .status(201)
+      .json({
+        message: "User created successfully",
+        user: {
+          id: newUser._id,
+          username: newUser.username,
+          email: newUser.email,
+        },
+      });
   } catch (error) {
-    res.status(500).send(error);
+    console.error("Signup error:", error); // ← Better error logging
+    res
+      .status(500)
+      .json({ message: "Internal server error", error: error.message });
   }
 };
 
 const login = async (req, res) => {
   try {
     const { username, password } = req.body;
-
-    // Find by uysername
+    console.log("Login attempt for:", username);
+    console.log("Full request body:", req.body);
+    // Find by username
     const foundUser = await user.findOne({ username });
 
     if (!foundUser) {
@@ -35,9 +52,13 @@ const login = async (req, res) => {
     }
 
     // Generate JWT
-    const token = jwt.sign({ id: foundUser._id, role: foundUser.role }, process.env.JWT_SECRET, {
-      expiresIn: "1h",
-    });
+    const token = jwt.sign(
+      { id: foundUser._id, role: foundUser.role },
+      process.env.JWT_SECRET,
+      {
+        expiresIn: "1h",
+      }
+    );
 
     //return token
     res.json({ token });
