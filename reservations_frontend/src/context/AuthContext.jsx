@@ -59,8 +59,24 @@ export const AuthProvider = ({ children }) => {
     } catch (error) {
       setError(error.message || "Login failed");
       return { success: false, error: error.message };
+    } finally {
+      setLoading(false);
     }
   }, []);
+
+  // Check if user has a specific role
+  const hasRole = useCallback(
+    (requiredRole) => {
+      return user && user.role === requiredRole;
+    },
+    [user]
+  );
+
+  // Check if the user is admin
+  // isAdmin will help to protect admin routes
+  const isAdmin = useMemo(() => {
+    return user && user.role === "admin";
+  }, [user]);
 
   // function to handle user signup
   const signup = useCallback(async (userData) => {
@@ -88,8 +104,17 @@ export const AuthProvider = ({ children }) => {
 
   // usememo avoiud recreate the "value" object
   const value = useMemo(
-    () => ({ user, loading, error, login, signup, logout }),
-    [user, loading, error, login, signup, logout]
+    () => ({
+      user,
+      loading,
+      error,
+      login,
+      signup,
+      logout,
+      hasRole,
+      isAdmin,
+    }),
+    [user, loading, error, login, signup, logout, hasRole, isAdmin]
   );
 
   //provide the authentication state and functions to child component

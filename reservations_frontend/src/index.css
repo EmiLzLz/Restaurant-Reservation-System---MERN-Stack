@@ -1,5 +1,9 @@
 @import "tailwindcss";
 
+.bg-glass {
+  @apply bg-[#2C3E36]/40 backdrop-blur-xl border border-[#81A68D]/30 rounded-2xl shadow-xl relative overflow-hidden;
+}
+
 .service-flow {
   backdrop-filter: blur(44px) saturate(9%);
   -webkit-backdrop-filter: blur(44px) saturate(89%);

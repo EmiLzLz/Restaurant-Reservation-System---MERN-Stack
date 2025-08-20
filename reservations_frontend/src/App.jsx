@@ -9,6 +9,8 @@ import DashboardHome from "./pages/Dashboard";
 import NewReservation from "./pages/NewReservation";
 import ProtectedRoutes from "./components/ProtectedRoutes";
 import ReservationsList from "./pages/ReservationsList";
+import AdminDashboard from "./pages/AdminDashboard";
+import ProtectedAdminRoute from "./components/ProtectedAdminRoute";
 
 function App() {
   return (
@@ -20,7 +22,14 @@ function App() {
       <Route element={<ProtectedRoutes />}>
         <Route path="/dashboard" element={<DashboardHome />} />
         <Route path="/dashboard/new-reservation" element={<NewReservation />} />
-        <Route path="/dashboard/reservations-list" element={<ReservationsList />} />
+        <Route
+          path="/dashboard/reservations-list"
+          element={<ReservationsList />}
+        />
+      </Route>
+
+      <Route element={<ProtectedAdminRoute />}>
+        <Route path="/admin" element={<AdminDashboard />} />
       </Route>
     </Routes>
   );
