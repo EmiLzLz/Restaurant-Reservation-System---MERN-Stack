@@ -8,13 +8,20 @@ import {
   Users,
   Clock,
 } from "lucide-react";
-import { useReservation } from "../hooks/useReservation";
+import { useAdmin } from "../hooks/useAdmin";
 import { useAuth } from "../hooks/useAuth";
 import { format } from "date-fns";
 import { useNavigate } from "react-router-dom";
 
 const AdminDashboard = () => {
-  const { reservations, loading, error } = useReservation();
+  const {
+    allReservations,
+    todayReservations,
+    tableAvailability,
+    updateReservation,
+    loading,
+    error,
+  } = useAdmin();
   const { logout } = useAuth();
   const navigate = useNavigate();
 
@@ -23,25 +30,12 @@ const AdminDashboard = () => {
     navigate("/login");
   };
 
-  // Filter today's reservations
-  const today = new Date().toDateString();
-  const todayReservations = reservations.filter(
-    (reservation) => new Date(reservation.date).toDateString() === today
-  );
-
-  // Mock table status - you can replace with real data later
-  const tablesStatus = [
-    { id: 1, occupied: true },
-    { id: 2, occupied: false },
-    { id: 3, occupied: true },
-    { id: 4, occupied: false },
-    { id: 5, occupied: true },
-  ];
-
-  const occupiedTables = tablesStatus.filter((table) => table.occupied).length;
-  const availableTables = tablesStatus.filter(
-    (table) => !table.occupied
-  ).length;
+  const handleStatusUpdate = async (reservationId, status) => {
+    const result = await updateReservation(reservationId, status);
+    if (!result.success) {
+      alert(`Error: ${result.error}`);
+    }
+  };
 
   if (loading)
     return <div className="p-8 text-[#2C3E36]">Loading admin data...</div>;
@@ -103,13 +97,13 @@ const AdminDashboard = () => {
                 <p>
                   Occupied:{" "}
                   <span className="text-[#D9886A] font-medium">
-                    {occupiedTables}
+                    {tableAvailability.occupied}
                   </span>
                 </p>
                 <p>
                   Available:{" "}
                   <span className="text-[#81A68D] font-medium">
-                    {availableTables}
+                    {tableAvailability.available}
                   </span>
                 </p>
               </div>
@@ -126,7 +120,7 @@ const AdminDashboard = () => {
                 </h2>
               </div>
               <p className="text-3xl text-[#2C3E36] font-semibold">
-                {reservations.length}
+                {allReservations.length}
               </p>
             </div>
           </div>
@@ -148,13 +142,13 @@ const AdminDashboard = () => {
             </h2>
           </header>
 
-          {reservations.length === 0 ? (
+          {allReservations.length === 0 ? (
             <p className="text-[#2C3E36]/70 relative z-10">
               No reservations found.
             </p>
           ) : (
             <ul className="space-y-4 relative z-10">
-              {reservations.map((reservation) => (
+              {allReservations.map((reservation) => (
                 <li key={reservation._id}>
                   <article className="bg-[#D9D4C8]/30 border border-[#D9D4C8]/40 rounded-xl p-6 backdrop-blur-sm hover:bg-[#D9D4C8]/40 transition-all duration-300 hover:shadow-lg">
                     <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
@@ -179,8 +173,7 @@ const AdminDashboard = () => {
                             <span>
                               Table:{" "}
                               {typeof reservation.table === "object"
-                                ? reservation.table.number ||
-                                  reservation.table._id
+                                ? reservation.table.capacity + " seats"
                                 : reservation.table}
                             </span>
                           </li>
@@ -188,14 +181,38 @@ const AdminDashboard = () => {
                       </div>
 
                       <div className="flex gap-2">
-                        <button className="flex items-center gap-1 px-4 py-2 text-sm bg-[#81A68D] text-white rounded-lg hover:bg-[#2C3E36] transition">
-                          <Check className="w-4 h-4" />
-                          Confirm
-                        </button>
-                        <button className="flex items-center gap-1 px-4 py-2 text-sm bg-[#D9886A] text-white rounded-lg hover:bg-red-700 transition">
-                          <XCircle className="w-4 h-4" />
-                          Cancel
-                        </button>
+                        {reservation.status === "pending" && (
+                          <>
+                            <button
+                              onClick={() =>
+                                handleStatusUpdate(reservation._id, "confirmed")
+                              }
+                              className="flex items-center gap-1 px-4 py-2 text-sm bg-[#81A68D] text-white rounded-lg hover:bg-[#2C3E36] transition"
+                            >
+                              <Check className="w-4 h-4" />
+                              Confirm
+                            </button>
+                            <button
+                              onClick={() =>
+                                handleStatusUpdate(reservation._id, "cancelled")
+                              }
+                              className="flex items-center gap-1 px-4 py-2 text-sm bg-[#D9886A] text-white rounded-lg hover:bg-red-700 transition"
+                            >
+                              <XCircle className="w-4 h-4" />
+                              Cancel
+                            </button>
+                          </>
+                        )}
+                        {reservation.status === "confirmed" && (
+                          <span className="px-3 py-1 bg-[#81A68D]/20 text-[#2C3E36] text-sm rounded-full border border-[#81A68D]/30">
+                            Confirmed
+                          </span>
+                        )}
+                        {reservation.status === "cancelled" && (
+                          <span className="px-3 py-1 bg-[#D9886A]/20 text-[#2C3E36] text-sm rounded-full border border-[#D9886A]/30">
+                            Cancelled
+                          </span>
+                        )}
                       </div>
                     </div>
                   </article>

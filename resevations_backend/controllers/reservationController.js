@@ -49,40 +49,71 @@ const deleteReservation = async (req, res) => {
 const createReservation = async (req, res) => {
   try {
     const { date, time, partySize } = req.body;
-    
+
     // Validaciones básicas
     if (!date || !time || !partySize) {
       return res.status(400).json({ message: "All fields required" });
     }
-    
+
     // Combinar fecha y hora
     const reservationDateTime = new Date(`${date}T${time}`);
-    
+
     // Buscar mesa disponible automáticamente
-    const availableTable = await table.findOne({ 
-      capacity: { $gte: partySize } 
+    const availableTable = await table.findOne({
+      capacity: { $gte: partySize },
     });
-    
+
     if (!availableTable) {
-      return res.status(400).json({ message: "No tables available for this party size" });
+      return res
+        .status(400)
+        .json({ message: "No tables available for this party size" });
     }
-    
+
     // Crear reserva
     const newReservation = new reservation({
       user: req.user.id,
       table: availableTable._id,
       date: reservationDateTime,
       people: partySize,
-      duration: 120 // 2 horas por defecto
+      duration: 120, // 2 horas por defecto
+      status: "pending",
     });
-    
+
     await newReservation.save();
     res.status(201).json(newReservation);
-    
   } catch (error) {
     console.error("Create reservation error:", error);
     res.status(500).json({ message: error.message });
   }
 };
 
-export { getReservations, deleteReservation, createReservation };
+const updateReservationStatus = async (req, res) => {
+  try {
+    const { status } = req.body;
+    const { id } = req.params;
+
+    if (!["pending", "confirmed", "cancelled"].includes(status)) {
+      return res.status(400).json({ message: "Invalid status" });
+    }
+
+    const updatedReservation = await reservation
+      .findByIdAndUpdate(id, { status }, { new: true })
+      .populate("user")
+      .populate("table", "capacity");
+
+    if (!updatedReservation) {
+      return res.status(404).json({ message: "Reservation not found" });
+    }
+
+    res.json(reservation);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+export {
+  getReservations,
+  deleteReservation,
+  createReservation,
+  updateReservationStatus,
+};
