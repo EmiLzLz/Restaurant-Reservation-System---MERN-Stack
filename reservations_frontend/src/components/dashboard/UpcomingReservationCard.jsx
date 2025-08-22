@@ -1,5 +1,5 @@
 import React from "react";
-import { Calendar, Users } from "lucide-react";
+import { Calendar, Users, RefreshCw } from "lucide-react";
 
 const UpcomingReservationCard = ({
   reservation,
@@ -7,6 +7,8 @@ const UpcomingReservationCard = ({
   formatTime,
   getStatusColor,
   getStatusText,
+  onRefresh,
+  isRefreshing = false,
 }) => {
   if (!reservation) return null;
 
@@ -35,7 +37,18 @@ const UpcomingReservationCard = ({
           </div>
         </div>
 
-        <div>
+        <div className="flex gap-3">
+          <button
+            onClick={onRefresh}
+            disabled={isRefreshing}
+            className="bg-gradient-to-r from-[#81A68D] to-[#81A68D]/80 hover:from-[#81A68D]/90 hover:to-[#81A68D]/70 disabled:opacity-50 disabled:cursor-not-allowed text-white px-6 py-3 rounded-xl font-medium transition-all duration-300 shadow-lg hover:shadow-xl backdrop-blur-sm flex items-center gap-2"
+          >
+            <RefreshCw
+              className={`h-4 w-4 ${isRefreshing ? "animate-spin" : ""}`}
+            />
+            {isRefreshing ? "Refreshing..." : "Refresh Status"}
+          </button>
+
           <button className="bg-gradient-to-r from-[#D9886A] to-[#D9886A]/80 hover:from-[#D9886A]/90 hover:to-[#D9886A]/70 text-white px-8 py-3 rounded-xl font-medium transition-all duration-300 shadow-lg hover:shadow-xl backdrop-blur-sm">
             Manage Reservation
           </button>

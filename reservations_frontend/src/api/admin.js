@@ -29,7 +29,7 @@ export const getAllReservations = async () => {
 export const updateReservationsStatus = async (id, status) => {
   try {
     const response = await api.patch(
-      `/admin/reservations/${id}/status`,
+      `/reservations/${id}/status`,
       { status },
       getAuthHeaders()
     );

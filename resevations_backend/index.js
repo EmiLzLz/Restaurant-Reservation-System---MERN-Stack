@@ -6,7 +6,7 @@ import cors from "cors";
 import authRoutes from "./routes/authRoutes.js";
 import tableRoutes from "./routes/tableRoutes.js";
 import reservationRoutes from "./routes/reservationRoutes.js";
-
+import adminRoutes from "./routes/adminRoutes.js";
 const app = express();
 const port = process.env.PORT || 3000;
 
@@ -23,6 +23,7 @@ connectDB();
 app.use("/api/auth", authRoutes);
 app.use("/api/tables", tableRoutes);
 app.use("/api/reservations", reservationRoutes);
+app.use("/api/admin", adminRoutes);
 
 app.get("/", (req, res) => {
   res.send("Hello World!");
