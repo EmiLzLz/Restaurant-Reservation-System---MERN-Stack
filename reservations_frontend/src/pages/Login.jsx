@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import LoginForm from "../components/auth/LoginForm";
 
 export default function Login() {
-  const { login, error, loading } = useAuth();
+  const { user, login, error, loading } = useAuth();
   const navigate = useNavigate();
   const [formError, setFormError] = useState(null);
 
@@ -13,7 +13,13 @@ export default function Login() {
     const result = await login(name, password);
 
     if (result.success) {
-      navigate("/dashboard"); // redirige a la vista principal
+      setTimeout(() => {
+        if (user?.role === "admin") {
+          navigate("/admin");
+        } else {
+          navigate("/dashboard");
+        }
+      }, 100);
     } else {
       setFormError(result.error || "Login failed");
     }

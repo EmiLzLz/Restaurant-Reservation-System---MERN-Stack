@@ -1,14 +1,39 @@
 import React from "react";
 import { MapPin, Clock, Users } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const ReservationHistoryCard = ({
   reservations,
   formatDate,
   formatTime,
-  getReservationStatus,
   getStatusColor,
   getStatusText,
 }) => {
+  const navigate = useNavigate();
+
+  // Helper function to determine if reservation is completed based on date
+  const isCompletedByDate = (reservationDate) => {
+    const now = new Date();
+    const resDate = new Date(reservationDate);
+    return resDate < now;
+  };
+
+  // Get the actual status to display
+  const getActualStatus = (reservation) => {
+    // If reservation is cancelled, always show cancelled
+    if (reservation.status === "cancelled") {
+      return "cancelled";
+    }
+    // If reservation date has passed and it was confirmed, show as completed
+    if (
+      isCompletedByDate(reservation.date) &&
+      reservation.status === "confirmed"
+    ) {
+      return "completed";
+    }
+    // Otherwise use the actual backend status
+    return reservation.status;
+  };
   return (
     <section className="bg-[#2C3E36]/10 backdrop-blur-xl border border-[#81A68D]/30 rounded-2xl shadow-xl p-8 overflow-hidden relative">
       <div className="absolute inset-0 bg-gradient-to-br from-[#F5EDE2]/20 to-[#D9D4C8]/5 pointer-events-none"></div>
@@ -28,7 +53,7 @@ const ReservationHistoryCard = ({
       <ul className="relative z-10 space-y-4">
         {reservations && reservations.length > 0 ? (
           reservations.map((reservation) => {
-            const status = getReservationStatus(reservation.date);
+            const status = getActualStatus(reservation);
             const statusColor = getStatusColor(status);
             const statusText = getStatusText(status);
 
@@ -73,12 +98,6 @@ const ReservationHistoryCard = ({
                     >
                       {statusText}
                     </span>
-
-                    {status === "confirmed" && (
-                      <button className="text-[#81A68D] hover:text-[#2C3E36] text-sm font-medium transition-colors">
-                        Modify
-                      </button>
-                    )}
                   </div>
                 </article>
               </li>
@@ -95,7 +114,10 @@ const ReservationHistoryCard = ({
       </ul>
 
       <footer className="mt-8">
-        <button className="w-full backdrop-blur-sm bg-[#D9D4C8]/30 border border-[#D9D4C8]/40 text-[#2C3E36] py-3 px-6 rounded-xl hover:bg-[#D9D4C8]/40 transition-all duration-300 font-medium">
+        <button
+          onClick={() => navigate("/dashboard/reservations-list")}
+          className="w-full cursor-pointer backdrop-blur-sm bg-gradient-to-r from-[#81A68D]/80 to-[#2C3E36] hover:from-[#81A68D] hover:to-[#2C3E36]/90 text-white py-4 px-6 rounded-xl transition-all duration-300 font-semibold shadow-lg hover:shadow-xl transform hover:scale-[1.02] active:scale-[0.98]"
+        >
           View All History
         </button>
       </footer>

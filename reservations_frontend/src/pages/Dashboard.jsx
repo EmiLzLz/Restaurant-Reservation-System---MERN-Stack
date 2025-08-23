@@ -42,23 +42,15 @@ const DashboardHome = () => {
     });
   };
 
-  /**
-   * The function `getReservationStatus` determines if a reservation is confirmed or completed based on
-   * the reservation date compared to the current date.
-   * @returns The function `getReservationStatus` returns either "confirmed" if the reservation date is
-   * in the future compared to the current date, or "completed" if the reservation date is in the past
-   * or the same as the current date.
-   */
-  const getReservationStatus = (reservationDate) => {
-    const now = new Date();
-    const resDate = new Date(reservationDate);
-    return resDate > now ? "confirmed" : "completed";
-  };
-
+  // ✅ Actualizado para manejar todos los status reales del backend
   const getStatusColor = (status) => {
     switch (status) {
+      case "pending":
+        return "bg-yellow-100 text-yellow-800 border border-yellow-200";
       case "confirmed":
         return "bg-[#81A68D]/20 text-[#2C3E36] border border-[#81A68D]/30";
+      case "cancelled":
+        return "bg-red-100 text-red-800 border border-red-200";
       case "completed":
         return "bg-[#D9886A]/20 text-[#2C3E36] border border-[#D9886A]/30";
       default:
@@ -66,10 +58,15 @@ const DashboardHome = () => {
     }
   };
 
+  // ✅ Actualizado para manejar todos los status reales del backend
   const getStatusText = (status) => {
     switch (status) {
+      case "pending":
+        return "Pending Approval";
       case "confirmed":
         return "Confirmed";
+      case "cancelled":
+        return "Cancelled";
       case "completed":
         return "Wonderful Evening";
       default:
@@ -110,7 +107,6 @@ const DashboardHome = () => {
             reservations={reservationHistory}
             formatDate={formatDate}
             formatTime={formatTime}
-            getReservationStatus={getReservationStatus}
             getStatusColor={getStatusColor}
             getStatusText={getStatusText}
           />

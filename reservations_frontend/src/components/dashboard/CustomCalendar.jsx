@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 const CustomCalendar = ({ selectedDate, onDateSelect }) => {
-  const [currentDate, setCurrfirstte] = useState(new Date());
+  const [currentDate, setCurrentDate] = useState(new Date()); // ✅ Corregido
 
   const today = new Date();
   const currentYear = currentDate.getFullYear();

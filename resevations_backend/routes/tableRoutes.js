@@ -9,7 +9,6 @@ import authenticateToken from "../middlewares/authMiddleware.js";
 
 const router = express.Router();
 
-// ✅ CAMBIAR: /all → / para que coincida con admin.js
 router.get("/", authenticateToken, authorizeRoles(["admin"]), getAllTables);
 router.post("/", authenticateToken, authorizeRoles(["admin"]), createTable);
 router.get("/available", getAvailableTables);
