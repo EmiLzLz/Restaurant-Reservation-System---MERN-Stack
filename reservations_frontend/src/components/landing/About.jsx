@@ -1,13 +1,15 @@
 import React from "react";
-
+import restaurant2 from "../../assets/images/restaurant2.webp"
+import restaurant3 from "../../assets/images/restaurant3.webp"
+import restaurant4 from "../../assets/images/restaurant4.webp"
+import restaurant5 from "../../assets/images/restaurant5.webp"
 const About = () => {
   return (
     <section className="relative overflow-hidden">
       {/* Banner Image */}
       <div className="relative h-64 md:h-[480px] w-full overflow-hidden">
         <img
-          src="https://images.unsplash.com/photo-1734520567931-21054aba2b89?q=80&w=1183&auto=format&fit=fill&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-          alt="Restaurant interior"
+          src={restaurant2}
           className="w-full h-full object-cover"
         />
       </div>
@@ -47,7 +49,7 @@ const About = () => {
               <div
                 className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110"
                 style={{
-                  backgroundImage: `url('https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?q=80&w=2070&auto=format&fit=crop')`,
+                  backgroundImage: `url(${restaurant3})`,
                 }}
               ></div>
               <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
@@ -65,7 +67,7 @@ const About = () => {
               <div
                 className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110"
                 style={{
-                  backgroundImage: `url('https://images.unsplash.com/photo-1414235077428-338989a2e8c0?q=80&w=2070&auto=format&fit=crop')`,
+                  backgroundImage: `url(${restaurant4})`,
                 }}
               ></div>
               <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
@@ -83,7 +85,7 @@ const About = () => {
               <div
                 className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110"
                 style={{
-                  backgroundImage: `url('https://images.unsplash.com/photo-1555396273-367ea4eb4db5?q=80&w=2074&auto=format&fit=crop')`,
+                  backgroundImage: `url(${restaurant5})`,
                 }}
               ></div>
               <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>

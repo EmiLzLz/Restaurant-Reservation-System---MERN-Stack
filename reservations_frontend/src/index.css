@@ -11,3 +11,23 @@
   border-radius: 0 0 60px 0;
   border: 1px solid rgba(245, 237, 226, 0.125);
 }
+
+p,
+a,
+label,
+span {
+  font-family: "Numans", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Crimson Text", serif;
+  font-weight: 400;
+  font-style: italic;
+}

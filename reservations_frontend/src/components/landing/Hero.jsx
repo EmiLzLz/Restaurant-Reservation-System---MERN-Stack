@@ -1,4 +1,5 @@
 import React from "react";
+import restaurant1 from "../../assets/images/restaurant1.webp"
 
 const Hero = () => {
   return (
@@ -14,7 +15,7 @@ const Hero = () => {
           </p>
 
           <h1 className="text-5xl md:text-6xl lg:text-7xl font-light mb-6 leading-tight">
-            <span className="block">Restaurant</span>
+            Restaurant
           </h1>
 
           <p className="text-lg md:text-xl text-[#D9D4C8] mb-8 font-light leading-relaxed">
@@ -44,8 +45,7 @@ const Hero = () => {
       <div className="hidden lg:block w-1/2 relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-l from-transparent to-[#2C3E36] opacity-30 z-10"></div>
         <img
-          src="https://images.unsplash.com/photo-1514933651103-005eec06c04b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1974&q=80"
-          alt="Restaurant Interior"
+          src={restaurant1}
           className="w-full h-full object-cover"
         />
       </div>

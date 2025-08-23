@@ -3,7 +3,7 @@ import { CalendarCheck, Sparkle } from "lucide-react";
 import RegisterForm from "../components/auth/RegisterForm";
 import { useAuth } from "../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
-
+import register from "../assets/images/register.webp";
 export default function Register() {
   const { signup, error, loading } = useAuth();
   const navigate = useNavigate();
@@ -25,8 +25,7 @@ export default function Register() {
       <div
         className="absolute inset-0 bg-cover bg-center"
         style={{
-          backgroundImage:
-            "url('https://images.unsplash.com/photo-1600891964599-f61ba0e24092?auto=format&fit=crop&w=1950&q=80')",
+          backgroundImage: `url(${register})`,
         }}
       />
       <div className="absolute inset-0 bg-[rgba(17,25,40,0.25)] backdrop-blur-lg backdrop-saturate-100" />

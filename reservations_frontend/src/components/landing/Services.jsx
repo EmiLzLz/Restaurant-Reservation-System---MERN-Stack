@@ -8,6 +8,7 @@ import {
   Diamond,
 } from "lucide-react";
 import { Link } from "react-router-dom";
+import restaurant6 from "../../assets/images/restaurant6.webp";
 
 const Services = () => {
   return (
@@ -60,7 +61,7 @@ const Services = () => {
             {/* Elegant Image with enhanced effects */}
             <div className="relative overflow-hidden rounded-2xl mb-8 shadow-2xl">
               <img
-                src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
+                src={restaurant6}
                 alt="Elegant dining experience"
                 className="w-full h-64 object-cover filter brightness-75"
               />

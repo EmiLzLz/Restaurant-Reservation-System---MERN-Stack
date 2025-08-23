@@ -3,7 +3,7 @@ import { ChefHat, Sparkle } from "lucide-react";
 import { useAuth } from "../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
 import LoginForm from "../components/auth/LoginForm";
-
+import login from "../assets/images/login.webp"
 export default function Login() {
   const { user, login, error, loading } = useAuth();
   const navigate = useNavigate();
@@ -32,7 +32,7 @@ export default function Login() {
         className="absolute inset-0 bg-cover bg-center"
         style={{
           backgroundImage:
-            "url('https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=1974&q=80')",
+            `url(${login})`,
         }}
       />
       <div className="absolute inset-0 bg-[rgba(17,25,40,0.2)] backdrop-blur-lg backdrop-saturate-100" />
